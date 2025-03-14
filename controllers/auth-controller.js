@@ -2,7 +2,7 @@ import { validationResult } from "express-validator";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 // models
-import User from "../models/user-model";
+import User from "../models/user-model.js";
 
 export const authController = {
   register: async (req, res) => {
@@ -50,9 +50,7 @@ export const authController = {
   },
   login: async (req, res) => {
     try {
-      const user = await Logistician.findOne({ email: req.body.email })
-        .populate("companyPublicData")
-        .exec();
+      const user = await User.findOne({ email: req.body.email });
 
       if (!user) {
         return res
@@ -86,9 +84,7 @@ export const authController = {
   },
   getMe: async (req, res) => {
     try {
-      const user = await Logistician.findById(req.userId)
-        .populate("companyPublicData")
-        .exec();
+      const user = await User.findById(req.userId);
 
       if (!user) {
         return res.status(404).json({
@@ -102,63 +98,6 @@ export const authController = {
     } catch (err) {
       res.status(500).json({
         message: "Не вышло получить данные пользователя",
-      });
-    }
-  },
-  updateProfile: async (req, res) => {
-    try {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return res.status(400).json(errors.array());
-      }
-      let companyId;
-
-      // Если Имя компании есть (она будет, если заказчик меняет свои данные, или водитель решил стать заказчиком)
-      if (req.body.nameCompany) {
-        const commpany = await CompanyPublic.findOne({
-          nameCompany: req.body.nameCompany,
-        });
-
-        if (commpany) {
-          // если компания есть, возвращаем ее id в переменную сверху
-          companyId = commpany._id;
-        } else {
-          // если компании нет, создаем ее и также возвращаем id в переменную выше
-
-          const docCompanyPublic = new CompanyPublic({
-            nameCompany: req.body.nameCompany,
-          });
-          const savedCompanyPublic = await docCompanyPublic.save();
-          companyId = savedCompanyPublic._id;
-        }
-      }
-
-      // Проверка на роль (роль будет приходить та, на которую мы будем обновлять сущность пользователя)
-      // если решил остаться заказчиком или водитель захотел стать заказчиком
-      // находим сущность пользователя
-      const updatedUser = await Logistician.findByIdAndUpdate(
-        req.userId,
-        {
-          userName: req.body.userName,
-          phone: req.body.phone,
-          roles: req.body.roles,
-          companyPublicData: req.body.roles === "customer" ? companyId : null,
-        },
-        { new: true },
-      );
-      if (!updatedUser) {
-        return res.status(404).json({
-          message: "Пользователь не найден",
-        });
-      }
-
-      res.json({
-        updatedUser,
-        message: "Даннык пользователя обновлены",
-      });
-    } catch (err) {
-      res.status(500).json({
-        message: "Не удалось обновить данные профиля",
       });
     }
   },
