@@ -6,6 +6,8 @@ import mongoose from "mongoose";
 import authRoutes from "./routes/auth.routes.js";
 import workoutRoutes from "./routes/workout.routes.js";
 import exerciseRoutes from "./routes/exercise.routes.js";
+import userRoutes from "./routes/user.routes.js";
+import statsRoutes from "./routes/stats.routes.js";
 
 const PORT = process.env.PORT || 3000;
 
@@ -14,12 +16,6 @@ app.use(cors());
 app.use(express.json());
 dotenv.config();
 
-// const MONGODB_HOST = process.env.MONGODB_HOST;
-// const MONGODB_PORT = process.env.MONGODB_PORT;
-// const MONGODB_USERNAME = process.env.MONGODB_USERNAME;
-// const MONGODB_PASSWORD = encodeURIComponent(process.env.MONGODB_PASSWORD);
-// const MONGODB_DBNAME = process.env.MONGODB_DBNAME;
-// const DATABASE_URL = `mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@${MONGODB_HOST}:${MONGODB_PORT}/${MONGODB_DBNAME}?authSource=admin&directConnection=true`;
 const DATABASE_URL = process.env.MONGO_URI;
 
 mongoose
@@ -34,6 +30,8 @@ app.get("/", (req, res) => {
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/workout", workoutRoutes);
 app.use("/api/v1/exercise", exerciseRoutes);
+app.use("/api/v1/users", userRoutes);
+app.use("/api/v1/stats", statsRoutes);
 
 app.use((err, req, res, next) => {
   if (err.name === "ValidationError") {

@@ -1,7 +1,6 @@
 import { validationResult } from "express-validator";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-// models
 import User from "../models/user-model.js";
 
 export const authController = {
@@ -27,13 +26,14 @@ export const authController = {
         name: req.body.name,
         email: req.body.email,
         passwordHash: hash,
-        roles: "basic",
+        role: "basic",
       });
       const savedUser = await docUser.save();
 
       const token = jwt.sign(
         {
           _id: savedUser._id,
+          role: savedUser.role,
         },
         "secret123",
         { expiresIn: "30d" },
@@ -69,6 +69,7 @@ export const authController = {
       const token = jwt.sign(
         {
           _id: user._id,
+          role: user.role,
         },
         "secret123",
         { expiresIn: "30d" },
@@ -79,25 +80,6 @@ export const authController = {
     } catch (err) {
       res.status(500).json({
         message: "Не удалось автоизироваться",
-      });
-    }
-  },
-  getMe: async (req, res) => {
-    try {
-      const user = await User.findById(req.userId);
-
-      if (!user) {
-        return res.status(404).json({
-          message: "Пользователь не найден",
-        });
-      }
-
-      const { passwordHash, ...userData } = user._doc;
-
-      res.json(userData);
-    } catch (err) {
-      res.status(500).json({
-        message: "Не вышло получить данные пользователя",
       });
     }
   },

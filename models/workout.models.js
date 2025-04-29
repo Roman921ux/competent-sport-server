@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 
 const SetSchema = new mongoose.Schema({
-  weight: { type: Number, require: true },
-  repeat: { type: Number, require: true },
+  weight: { type: Number, required: true },
+  repeat: { type: Number, required: true },
   comment: { type: String, default: "" },
 });
 
@@ -20,7 +20,7 @@ const ExercisesSchema = new mongoose.Schema({
 });
 
 const WorkoutSchema = new mongoose.Schema({
-  title: { type: String, require: true },
+  title: { type: String, required: true },
   comment: { type: String, default: "" },
   date: { type: Date, default: Date.now() },
   exercises: { type: [ExercisesSchema], default: [] },
