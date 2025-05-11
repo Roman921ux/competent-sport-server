@@ -6,7 +6,11 @@ export const statsController = {
       const userId = req.userId;
       const exerciseId = req.params.exerciseId;
 
-      const userWorkouts = await Workout.find({ userId });
+      const userWorkouts = await Workout.find({ userId }).populate({
+        path: "exercises.exerciseId",
+        model: "Exercise",
+      });
+
       if (!userWorkouts) {
         return res.status(404).json({
           message: "У вас еще нет ни одной созданной тренировки",
@@ -15,10 +19,10 @@ export const statsController = {
 
       const userExercises = userWorkouts.map((workout) =>
         workout.exercises.filter(
-          (ex) => ex.exerciseId.toString() === exerciseId,
+          (ex) => ex.exerciseId._id.toString() === exerciseId,
         ),
       );
-      if (userExercises.lenght === 0) {
+      if (userExercises.length === 0) {
         return res.status(404).json({
           message: "В ваших тренировках нет такого упражнения",
         });

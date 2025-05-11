@@ -13,12 +13,12 @@ export const exerciseValidation = {
         "array.includes": "Каждый элемент muscleGroups должен быть строкой",
         "any.required": "Поле 'muscleGroups' обязательно для заполнения",
       }),
-      typeExercise: Joi.string().valid("officialExercise").required().messages({
-        "string.empty": "Тип упражнения обязателен",
-        "any.only":
-          "Тип упражнения должен быть либо communityExercise, либо personalExercise",
-        "any.required": "Поле 'typeExercise' обязательно для заполнения",
-      }),
+      // typeExercise: Joi.string().valid("officialExercise").required().messages({
+      //   "string.empty": "Тип упражнения обязателен",
+      //   "any.only":
+      //     "Тип упражнения должен быть либо communityExercise, либо personalExercise",
+      //   "any.required": "Поле 'typeExercise' обязательно для заполнения",
+      // }),
     }),
   }),
   createUsersExercise: validate({
@@ -52,6 +52,16 @@ export const exerciseValidation = {
       }),
       description: Joi.string().allow("").optional(),
       muscleGroups: Joi.array().items(Joi.string()).optional(),
+      typeExercise: Joi.string()
+        .valid("communityExercise", "personalExercise", "officialExercise")
+        .required()
+        .messages({
+          "string.empty": "Тип упражнения обязателен",
+          "any.only":
+            "Тип упражнения должен быть либо communityExercise, либо personalExercise",
+          "any.required": "Поле 'typeExercise' обязательно для заполнения",
+        })
+        .optional(),
     }).min(1),
   }),
   editUsersExercise: validate({

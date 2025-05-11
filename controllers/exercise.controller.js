@@ -21,6 +21,18 @@ export const exerciseController = {
       res.status(500).json({ message: "Не удалось создать упражнение" });
     }
   },
+  deleteExercise: async (req, res) => {
+    const exerciseId = req.params.exerciseId;
+
+    try {
+      const newExercise = await Exercise.findByIdAndDelete(exerciseId);
+
+      res.status(200).json({ message: "Удаленно", newExercise });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ message: "Не удалось удалить упражнение" });
+    }
+  },
   createUsersExercise: async (req, res) => {
     const { typeExercise, ...body } = req.body;
     const userId = req.userId;

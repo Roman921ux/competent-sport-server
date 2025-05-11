@@ -36,5 +36,6 @@ router.patch(
   exerciseValidation.editUsersExercise,
   exerciseController.editUsersExercise,
 );
+router.delete("/:exerciseId", checkAuth, exerciseController.deleteExercise);
 
 export default router;

@@ -8,6 +8,8 @@ import workoutRoutes from "./routes/workout.routes.js";
 import exerciseRoutes from "./routes/exercise.routes.js";
 import userRoutes from "./routes/user.routes.js";
 import statsRoutes from "./routes/stats.routes.js";
+import trainerRoutes from "./routes/trainer.router.js";
+import paymentRecordRoutes from "./routes/payment-record.routes.js";
 
 const PORT = process.env.PORT || 3000;
 
@@ -32,6 +34,8 @@ app.use("/api/v1/workout", workoutRoutes);
 app.use("/api/v1/exercise", exerciseRoutes);
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/stats", statsRoutes);
+app.use("/api/v1/trainer", trainerRoutes);
+app.use("/api/v1/payment-record", paymentRecordRoutes);
 
 app.use((err, req, res, next) => {
   if (err.name === "ValidationError") {

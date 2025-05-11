@@ -29,7 +29,7 @@ export const workoutValidation = {
                 repeat: Joi.number().required().messages({
                   "number.base": "Количество повторений должно быть числом",
                 }),
-                comment: Joi.string().optional().messages({
+                comment: Joi.string().optional().allow("").messages({
                   "string.base": "Комментарий должен быть строкой",
                 }),
               }),
@@ -60,7 +60,7 @@ export const workoutValidation = {
       repeat: Joi.number().required().messages({
         "number.base": "Количество повторений должно быть числом",
       }),
-      comment: Joi.string().optional().messages({
+      comment: Joi.string().optional().allow("").messages({
         "string.base": "Комментарий должен быть строкой",
       }),
     }),
@@ -73,7 +73,7 @@ export const workoutValidation = {
       repeat: Joi.number().required().messages({
         "number.base": "Количество повторений должно быть числом",
       }),
-      comment: Joi.string().optional().messages({
+      comment: Joi.string().optional().allow("").messages({
         "string.base": "Комментарий должен быть строкой",
       }),
     }),

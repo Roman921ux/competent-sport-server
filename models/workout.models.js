@@ -19,16 +19,19 @@ const ExercisesSchema = new mongoose.Schema({
   },
 });
 
-const WorkoutSchema = new mongoose.Schema({
-  title: { type: String, required: true },
-  comment: { type: String, default: "" },
-  date: { type: Date, default: Date.now() },
-  exercises: { type: [ExercisesSchema], default: [] },
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
+const WorkoutSchema = new mongoose.Schema(
+  {
+    title: { type: String, required: true },
+    comment: { type: String, default: "" },
+    date: { type: Date, default: Date.now() },
+    exercises: { type: [ExercisesSchema], default: [] },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
   },
-});
+  { timestamps: true },
+);
 
 export default mongoose.model("Workout", WorkoutSchema);

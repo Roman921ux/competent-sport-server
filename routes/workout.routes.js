@@ -16,6 +16,7 @@ router.post(
 router.get("/", checkAuth, workoutController.getAll);
 // получение одной тренировки
 router.get("/:workoutId", checkAuth, workoutController.getOne);
+
 // редактирование тренировки
 router.patch(
   "/:workoutId",
@@ -23,13 +24,13 @@ router.patch(
   workoutValidation.editWorkout,
   workoutController.editWorkout,
 );
+
 // добавления упражнения в тренировку
 router.patch(
   "/:workoutId/exercises/:exerciseId",
   checkAuth,
   workoutController.addExerciseToWorkout,
 );
-
 // добавление подхода в тренировку
 router.patch(
   "/:workoutId/exercises/:exerciseId/set",
