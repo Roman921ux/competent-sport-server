@@ -65,6 +65,7 @@ export const workoutValidation = {
       }),
     }),
   }),
+  // new version
   editSetToExercise: validate({
     body: Joi.object({
       weight: Joi.number().required().messages({
